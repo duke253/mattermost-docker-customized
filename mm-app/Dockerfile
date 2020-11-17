@@ -1,14 +1,21 @@
 FROM alpine:3.10
 
-# Some ENV variables
+# Environment variables
 ENV PATH="/mattermost/bin:${PATH}"
 ENV MM_VERSION=5.29.0
 ENV MM_INSTALL_TYPE=docker
+ENV MM_CONFIG="/mattermost/config/config.json"
+ENV DB_HOST=epdbhu50ul1if3edm0li.auto.internal
+ENV DB_PORT_NUMBER=5432
+ENV MM_DBNAME=mattermost-db
+ENV MM_USERNAME=mmdbuser01
+ENV MM_PASSWORD=QaZ(77)zAq
+ENV MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$ENCODED_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=disable&connect_timeout=10"
 
 # Build argument to set Mattermost edition
-ARG edition=enterprise
-ARG PUID=2000
-ARG PGID=2000
+ARG edition=team
+ARG PUID=1999
+ARG PGID=1999
 ARG MM_BINARY=
 
 
