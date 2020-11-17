@@ -10,7 +10,7 @@ ENV DB_PORT_NUMBER=5432
 ENV MM_DBNAME=mattermostdb
 ENV MM_USERNAME=mmdbuser01
 ENV MM_PASSWORD=QaZ(77)zAq
-ENV MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$ENCODED_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=disable&connect_timeout=10"
+ENV MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$MM_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=disable&connect_timeout=10"
 
 # Build argument to set Mattermost edition
 ARG edition=team
@@ -46,6 +46,7 @@ RUN mkdir -p /mattermost/data /mattermost/plugins /mattermost/client/plugins \
 	&& chown -R mattermost:mattermost /mattermost /config.json.save /mattermost/plugins /mattermost/client/plugins \
 	&& setcap cap_net_bind_service=+ep /mattermost/bin/mattermost
 
+# Configure entrypoint
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 
