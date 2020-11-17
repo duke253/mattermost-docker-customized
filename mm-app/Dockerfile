@@ -7,7 +7,7 @@ ENV MM_INSTALL_TYPE=docker
 ENV MM_CONFIG="/mattermost/config/config.json"
 ENV DB_HOST=epdbhu50ul1if3edm0li.auto.internal
 ENV DB_PORT_NUMBER=5432
-ENV MM_DBNAME=mattermost-db
+ENV MM_DBNAME=mattermostdb
 ENV MM_USERNAME=mmdbuser01
 ENV MM_PASSWORD=QaZ(77)zAq
 ENV MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$ENCODED_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=disable&connect_timeout=10"
