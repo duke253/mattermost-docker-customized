@@ -33,7 +33,7 @@ RUN apk add --no-cache \
 
 # Get Mattermost
 RUN mkdir -p /mattermost/data /mattermost/plugins /mattermost/client/plugins \
-	&& curl https://releases.mattermost.com/$MM_VERSION/mattermost-team-$MM_VERSION-linux-amd64.tar.gz?src=docker-app | tar -xvz ; \
+	&& curl https://releases.mattermost.com/$MM_VERSION/mattermost-team-$MM_VERSION-linux-amd64.tar.gz?src=docker-app | tar -xvz \
 	&& cp /mattermost/config/config.json /config.json.save \
 	&& rm -rf /mattermost/config/config.json \
 	&& addgroup -g ${PGID} mattermost \
