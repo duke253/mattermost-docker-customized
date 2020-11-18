@@ -2,7 +2,6 @@ FROM alpine:3.10
 
 # Environment variables
 ENV PATH="/mattermost/bin:${PATH}"
-# ENV MM_INSTALL_TYPE=docker
 ENV MM_CONFIG="/mattermost/config/config.json"
 
 # Build arguments
