@@ -12,12 +12,9 @@ ENV MM_USERNAME=mmdbuser01
 ENV MM_PASSWORD=QaZ(77)zAq
 ENV MM_SQLSETTINGS_DATASOURCE="postgres://$MM_USERNAME:$MM_PASSWORD@$DB_HOST:$DB_PORT_NUMBER/$MM_DBNAME?sslmode=disable&connect_timeout=10"
 
-# Build argument to set Mattermost edition
-ARG edition=team
+# Build arguments
 ARG PUID=1999
 ARG PGID=1999
-ARG MM_BINARY=
-
 
 # Install some needed packages
 RUN apk add --no-cache \
@@ -36,9 +33,7 @@ RUN apk add --no-cache \
 
 # Get Mattermost
 RUN mkdir -p /mattermost/data /mattermost/plugins /mattermost/client/plugins \
-	&& if [ ! -z "$MM_BINARY" ]; then curl $MM_BINARY | tar -xvz ; \
-		elif [ "$edition" = "team" ] ; then curl https://releases.mattermost.com/$MM_VERSION/mattermost-team-$MM_VERSION-linux-amd64.tar.gz?src=docker-app | tar -xvz ; \
-		else curl https://releases.mattermost.com/$MM_VERSION/mattermost-$MM_VERSION-linux-amd64.tar.gz?src=docker-app | tar -xvz ; fi \
+	&& curl https://releases.mattermost.com/$MM_VERSION/mattermost-team-$MM_VERSION-linux-amd64.tar.gz?src=docker-app | tar -xvz ; \
 	&& cp /mattermost/config/config.json /config.json.save \
 	&& rm -rf /mattermost/config/config.json \
 	&& addgroup -g ${PGID} mattermost \
@@ -49,19 +44,17 @@ RUN mkdir -p /mattermost/data /mattermost/plugins /mattermost/client/plugins \
 # Configure entrypoint
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
+# Switch to user mattermost
 USER mattermost
 
-#Healthcheck to make sure container is ready
+# Healthcheck to make sure container is ready
 HEALTHCHECK CMD curl --fail http://localhost:8000 || exit 1
 
-# Configure entrypoint and command
+# Configure command
 WORKDIR /mattermost
-ENTRYPOINT ["/entrypoint.sh"]
 CMD ["mattermost"]
 
 # Expose port 8000 of the container
 EXPOSE 8000
-
-# Declare volumes for mount point directories
-# VOLUME ["/mattermost/data", "/mattermost/logs", "/mattermost/config", "/mattermost/plugins", "/mattermost/client/plugins"]
