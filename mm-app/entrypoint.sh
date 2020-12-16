@@ -5,11 +5,6 @@ generate_salt() {
 	tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 48 | head -n 1
 }
 
-# Mount NFS directories
-mount -t nfs 178.154.233.162:/mnt/nfsshare/mm/data /mattermost/data
-mount -t nfs 178.154.233.162:/mnt/nfsshare/mm/plugins /mattermost/plugins
-mount -t nfs 178.154.233.162:/mnt/nfsshare/mm/client-plugins /mattermost/client/client-plugins
-
 # Read environment variables or set default values
 DB_HOST=${DB_HOST:-db}
 DB_PORT_NUMBER=${DB_PORT_NUMBER:-5432}
